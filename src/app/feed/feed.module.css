@@ -1,0 +1,198 @@
+.container {
+    height: 100vh;
+    height: 100dvh;
+    background: linear-gradient(135deg, #171022 0%, #1a0e2e 100%);
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    /* Hide scrollbar - all browsers */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth iOS scrolling */
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.feedItem {
+    height: 100vh;
+    height: 100dvh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* Prevents skipping items on fast swipe */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    will-change: transform;
+    /* GPU acceleration hint */
+    background: transparent;
+}
+
+/* Loading State */
+.loading {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    color: var(--color-text-muted);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-bg-tertiary);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty State */
+.empty {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl);
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.empty h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-text-primary);
+}
+
+.empty p {
+    color: var(--color-text-muted);
+}
+
+/* Navigation Hint */
+.navHint {
+    position: absolute;
+    bottom: var(--spacing-2xl);
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fadeInUp 0.5s ease-out 1s both;
+}
+
+.swipeHint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.swipeText {
+    font-size: var(--font-size-xs);
+    opacity: 0.7;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Progress Indicator */
+.progressIndicator {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    background: var(--color-bg-overlay);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+/* Progress Dots - TikTok Style */
+.progressDots {
+    position: fixed;
+    left: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    z-index: 20;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-text-muted);
+    opacity: 0.3;
+    transition: all 0.3s ease;
+}
+
+.dotActive {
+    width: 6px;
+    height: 16px;
+    border-radius: 3px;
+    background: var(--color-primary);
+    opacity: 1;
+}
+
+.dotPassed {
+    opacity: 0.6;
+}
+
+.dotMore {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
