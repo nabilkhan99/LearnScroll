@@ -1,0 +1,105 @@
+.nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 72px;
+    padding: 0 var(--spacing-sm);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    background: rgba(23, 16, 34, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-width: 64px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-lg);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.navItem:active {
+    transform: scale(0.92);
+}
+
+.navItem.active {
+    color: var(--color-primary);
+}
+
+.navItem.active .icon {
+    transform: scale(1.1);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    transition: transform var(--transition-fast);
+}
+
+.icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* Center button (Create) - special styling */
+.center {
+    position: relative;
+}
+
+.center .icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px rgba(123, 37, 244, 0.4);
+    transition: all var(--transition-base);
+}
+
+.center .icon svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+}
+
+.center:hover .icon,
+.center:active .icon {
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px rgba(123, 37, 244, 0.5);
+}
+
+.center .label {
+    display: none;
+}
+
+/* Hide on pages that don't need nav */
+@media (max-height: 500px) {
+    .nav {
+        height: 56px;
+    }
+
+    .label {
+        display: none;
+    }
+}

@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Content, isTextContent } from '@/lib/content/types';
 import TextContentCard from '@/components/content/TextContentCard';
+import TopNav from '@/components/navigation/TopNav';
+import BottomNav from '@/components/navigation/BottomNav';
 import styles from './feed.module.css';
 
 export default function FeedPage() {
@@ -13,6 +15,8 @@ export default function FeedPage() {
     const [userInterests, setUserInterests] = useState<string[]>([]);
     const [likedContentIds, setLikedContentIds] = useState<Set<string>>(new Set());
     const [bookmarkedContentIds, setBookmarkedContentIds] = useState<Set<string>>(new Set());
+    const [activeTab, setActiveTab] = useState<'foryou' | 'following'>('foryou');
+    const [isMuted, setIsMuted] = useState(true);
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
@@ -229,60 +233,70 @@ export default function FeedPage() {
     }
 
     return (
-        <div
-            ref={containerRef}
-            className={styles.container}
-        >
-            {/* Scrollable feed - renders all items */}
-            {content.map((item, index) => (
-                <div
-                    key={item.id}
-                    data-index={index}
-                    ref={(el) => {
-                        if (el) itemRefs.current.set(index, el);
-                    }}
-                    className={styles.feedItem}
-                >
-                    {isTextContent(item) && (
-                        <TextContentCard
-                            content={item}
-                            isLiked={likedContentIds.has(item.id)}
-                            isBookmarked={bookmarkedContentIds.has(item.id)}
-                            onLike={() => handleLike(item.id)}
-                            onBookmark={() => handleBookmark(item.id)}
-                            onShare={() => handleShare(item)}
-                        />
+        <>
+            <TopNav
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                isMuted={isMuted}
+                onMuteToggle={() => setIsMuted(!isMuted)}
+            />
+
+            <div
+                ref={containerRef}
+                className={styles.container}
+            >
+                {/* Scrollable feed - renders all items */}
+                {content.map((item, index) => (
+                    <div
+                        key={item.id}
+                        data-index={index}
+                        ref={(el) => {
+                            if (el) itemRefs.current.set(index, el);
+                        }}
+                        className={styles.feedItem}
+                    >
+                        {isTextContent(item) && (
+                            <TextContentCard
+                                content={item}
+                                isLiked={likedContentIds.has(item.id)}
+                                isBookmarked={bookmarkedContentIds.has(item.id)}
+                                onLike={() => handleLike(item.id)}
+                                onBookmark={() => handleBookmark(item.id)}
+                                onShare={() => handleShare(item)}
+                            />
+                        )}
+                    </div>
+                ))}
+
+                {/* Navigation hint - only show when not at end */}
+                <div className={styles.navHint}>
+                    {currentIndex < content.length - 1 && (
+                        <div className={styles.swipeHint}>
+                            <span>↑</span>
+                            <span className={styles.swipeText}>Scroll up</span>
+                        </div>
                     )}
                 </div>
-            ))}
 
-            {/* Navigation hint - only show when not at end */}
-            <div className={styles.navHint}>
-                {currentIndex < content.length - 1 && (
-                    <div className={styles.swipeHint}>
-                        <span>↑</span>
-                        <span className={styles.swipeText}>Scroll up</span>
-                    </div>
-                )}
+                {/* Progress indicator */}
+                <div className={styles.progressIndicator}>
+                    <span>{currentIndex + 1}</span>
+                    <span className={styles.separator}>/</span>
+                    <span>{content.length}</span>
+                </div>
+
+                {/* Progress dots - like TikTok */}
+                <div className={styles.progressDots}>
+                    {content.slice(0, 10).map((_, i) => (
+                        <div
+                            key={i}
+                            className={`${styles.dot} ${i === currentIndex ? styles.dotActive : i < currentIndex ? styles.dotPassed : ''}`}
+                        />
+                    ))}\n                    {content.length > 10 && <span className={styles.dotMore}>+{content.length - 10}</span>}
+                </div>
             </div>
 
-            {/* Progress indicator */}
-            <div className={styles.progressIndicator}>
-                <span>{currentIndex + 1}</span>
-                <span className={styles.separator}>/</span>
-                <span>{content.length}</span>
-            </div>
-
-            {/* Progress dots - like TikTok */}
-            <div className={styles.progressDots}>
-                {content.slice(0, 10).map((_, i) => (
-                    <div
-                        key={i}
-                        className={`${styles.dot} ${i === currentIndex ? styles.dotActive : i < currentIndex ? styles.dotPassed : ''}`}
-                    />
-                ))}
-                {content.length > 10 && <span className={styles.dotMore}>+{content.length - 10}</span>}
-            </div>
-        </div>
+            <BottomNav />
+        </>
     );
 }
