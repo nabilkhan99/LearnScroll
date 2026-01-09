@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { Content } from '@/lib/content/types';
 import LibraryClient from './LibraryClient';
 
 export const metadata = {
@@ -38,13 +39,13 @@ export default async function LibraryPage() {
         .order('created_at', { ascending: false });
 
     // Extract content from bookmarks and likes
-    const bookmarkedContent = (bookmarks || [])
-        .map(b => b.content)
-        .filter(Boolean);
+    const bookmarkedContent = ((bookmarks || []) as any[])
+        .map(b => b.content as Content)
+        .filter(c => c !== null);
 
-    const likedContent = (likes || [])
-        .map(l => l.content)
-        .filter(Boolean);
+    const likedContent = ((likes || []) as any[])
+        .map(l => l.content as Content)
+        .filter(c => c !== null);
 
     return (
         <LibraryClient
