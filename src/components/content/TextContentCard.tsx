@@ -122,21 +122,7 @@ export default function TextContentCard({
                 </button>
             </div>
 
-            {/* Bottom Progress Section */}
-            <div className={styles.bottomSection}>
-                <div className={styles.progressSection}>
-                    <div className={styles.progressHeader}>
-                        <span className={styles.progressLabel}>Lesson Progress</span>
-                        <span className={styles.progressPercent}>{Math.round(scrollProgress * 100)}%</span>
-                    </div>
-                    <div className={styles.progressBar}>
-                        <div
-                            className={styles.progressFill}
-                            style={{ width: `${scrollProgress * 100}%` }}
-                        />
-                    </div>
-                </div>
-            </div>
+
 
             {/* Heart Animation Overlay */}
             {showHeartAnimation && (

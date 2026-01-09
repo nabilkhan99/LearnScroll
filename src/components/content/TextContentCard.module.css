@@ -233,56 +233,7 @@
     }
 }
 
-/* Bottom Section with Progress */
-.bottomSection {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(23, 16, 34, 0.95) 30%, #171022 100%);
-    padding: 40px 20px 16px;
-    z-index: 10;
-    pointer-events: none;
-}
 
-.progressSection {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.progressHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.progressLabel {
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.progressPercent {
-    font-size: 12px;
-    font-weight: 700;
-    color: #7b25f4;
-}
-
-.progressBar {
-    height: 6px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-.progressFill {
-    height: 100%;
-    background: linear-gradient(90deg, #7b25f4 0%, #a855f7 100%);
-    border-radius: 999px;
-    transition: width 0.15s ease;
-}
 
 /* Heart Animation Overlay */
 .heartOverlay {
