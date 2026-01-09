@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Content, isTextContent } from '@/lib/content/types';
+import { Content, isTextContent, isVideoContent } from '@/lib/content/types';
 import TextContentCard from '@/components/content/TextContentCard';
+import VideoContentCard from '@/components/content/VideoContentCard';
 import TopNav from '@/components/navigation/TopNav';
 import BottomNav from '@/components/navigation/BottomNav';
 import styles from './feed.module.css';
@@ -48,11 +49,11 @@ export default function FeedPage() {
                 }
             }
 
-            // Fetch content
+            // Fetch content (both text and video)
             const { data: contentData, error } = await supabase
                 .from('content')
                 .select('*')
-                .eq('type', 'text')
+                .in('type', ['text', 'video'])
                 .order('created_at', { ascending: false })
                 .limit(50);
 
@@ -237,6 +238,18 @@ export default function FeedPage() {
                         {isTextContent(item) && (
                             <TextContentCard
                                 content={item}
+                                isLiked={likedContentIds.has(item.id)}
+                                isBookmarked={bookmarkedContentIds.has(item.id)}
+                                onLike={() => handleLike(item.id)}
+                                onBookmark={() => handleBookmark(item.id)}
+                                onShare={() => handleShare(item)}
+                            />
+                        )}
+                        {isVideoContent(item) && (
+                            <VideoContentCard
+                                content={item}
+                                isActive={index === currentIndex}
+                                isMuted={isMuted}
                                 isLiked={likedContentIds.has(item.id)}
                                 isBookmarked={bookmarkedContentIds.has(item.id)}
                                 onLike={() => handleLike(item.id)}
