@@ -64,27 +64,20 @@ export default function TextContentCard({
             {/* Background Gradient */}
             <div className={styles.backgroundGradient} />
 
-            {/* Header Meta - now at top of content */}
+            {/* Header - Category and Reading Time at Top */}
             <div className={styles.headerMeta}>
-                <span className={styles.categoryPill}>
+                <span className={styles.categoryLabel}>
                     {categoryInfo?.label || content.category}
                 </span>
-                <span className={styles.timePill}>
-                    ⏱ {readingTime} min
+                <span className={styles.separator}>•</span>
+                <span className={styles.durationLabel}>
+                    {readingTime} min
                 </span>
             </div>
 
             {/* Scrollable Content */}
             <div className={styles.contentWrapper} onScroll={handleScroll}>
                 <h1 className={styles.title}>{content.title}</h1>
-
-                {/* Author Info - from database */}
-                <div className={styles.authorInfo}>
-                    <div className={styles.authorAvatar}>
-                        <div className={styles.avatarPlaceholder} />
-                    </div>
-                    <span className={styles.authorName}>{content.author}</span>
-                </div>
 
                 {/* Body Content */}
                 <div className={styles.body}>

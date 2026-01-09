@@ -19,60 +19,42 @@
     z-index: 0;
 }
 
-/* Header Meta - pills at top */
+/* Header Meta - Top Center between icons */
 .headerMeta {
-    position: relative;
-    padding: 70px 16px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    z-index: 2;
-    flex-shrink: 0;
-}
-
-.headerLeft {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.categoryPill {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    background: rgba(123, 37, 244, 0.9);
-    backdrop-filter: blur(8px);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 8px;
-    text-transform: capitalize;
-    box-shadow: 0 2px 8px rgba(123, 37, 244, 0.3);
-}
-
-.timePill {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 10px;
-    background: rgba(255, 255, 255, 0.1);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(12px);
-    color: white;
-    font-size: 11px;
-    font-weight: 500;
-    border-radius: 8px;
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 16px;
+    border-radius: 20px;
 }
 
-.difficultyPill {
-    display: inline-flex;
-    padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
+.categoryLabel {
+    font-size: 13px;
+    font-weight: 600;
     color: white;
-    font-size: 11px;
-    font-weight: 500;
-    border-radius: 8px;
-    text-transform: capitalize;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
+
+.separator {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+}
+
+.durationLabel {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+}
+
 
 /* Content area */
 .contentWrapper {
@@ -80,7 +62,7 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding: 0 20px;
+    padding: 60px 20px 0;
     padding-right: 60px;
     padding-bottom: 120px;
     scroll-behavior: smooth;
@@ -95,6 +77,15 @@
 
 .contentWrapper::-webkit-scrollbar {
     display: none;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
 }
 
 .title {

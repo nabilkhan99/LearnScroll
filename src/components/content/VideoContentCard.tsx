@@ -128,31 +128,15 @@ export default function VideoContentCard({
                 </div>
             )}
 
-            {/* Header Meta */}
+            {/* Header - Category and Duration at Top */}
             <div className={styles.headerMeta}>
-                <span className={styles.categoryPill}>
+                <span className={styles.categoryLabel}>
                     {categoryInfo?.label || content.category}
                 </span>
-                <span className={styles.timePill}>
-                    ⏱ {formatDuration(content.metadata.duration_seconds)}
+                <span className={styles.separator}>•</span>
+                <span className={styles.durationLabel}>
+                    {formatDuration(content.metadata.duration_seconds)}
                 </span>
-            </div>
-
-            {/* Bottom Content Overlay */}
-            <div className={styles.bottomOverlay}>
-                <h1 className={styles.title}>{content.title}</h1>
-
-                {/* Author Info */}
-                <div className={styles.authorInfo}>
-                    <div className={styles.authorAvatar}>
-                        <div className={styles.avatarPlaceholder} />
-                    </div>
-                    <span className={styles.authorName}>{content.author}</span>
-                </div>
-
-                {content.description && (
-                    <p className={styles.description}>{content.description}</p>
-                )}
             </div>
 
             {/* Interaction Buttons - Right Side */}
