@@ -41,7 +41,6 @@ export default function LibraryClient({
     return (
         <div className={styles.container}>
             <TopNav
-                showTabs={false}
                 title="Library"
                 showVolumeControl={false}
             />

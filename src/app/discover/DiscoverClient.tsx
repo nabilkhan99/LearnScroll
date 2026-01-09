@@ -36,7 +36,6 @@ export default function DiscoverClient({
     return (
         <div className={styles.container}>
             <TopNav
-                showTabs={false}
                 title="Discover"
                 showVolumeControl={false}
             />
@@ -108,21 +107,7 @@ export default function DiscoverClient({
                     </div>
                 </section>
 
-                {/* Featured Creators (Placeholder) */}
-                <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>Featured Creators</h2>
-                    <div className={styles.creatorsRow}>
-                        {['Dr. Sarah', 'Prof. Mike', 'Ana Chen', 'James K.'].map((name, i) => (
-                            <div key={i} className={styles.creatorCard}>
-                                <div className={styles.creatorAvatar}>
-                                    {name.charAt(0)}
-                                </div>
-                                <span className={styles.creatorName}>{name}</span>
-                                <button className={styles.followBtn}>Follow</button>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+
 
                 {/* Collections (Placeholder) */}
                 <section className={styles.section}>

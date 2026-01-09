@@ -1,15 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import styles from './TopNav.module.css';
 
-type FeedTab = 'foryou' | 'following';
-
 interface TopNavProps {
-    showTabs?: boolean;
-    activeTab?: FeedTab;
-    onTabChange?: (tab: FeedTab) => void;
     showVolumeControl?: boolean;
     isMuted?: boolean;
     onMuteToggle?: () => void;
@@ -19,9 +13,6 @@ interface TopNavProps {
 }
 
 export default function TopNav({
-    showTabs = true,
-    activeTab = 'foryou',
-    onTabChange,
     showVolumeControl = true,
     isMuted = true,
     onMuteToggle,
@@ -29,13 +20,6 @@ export default function TopNav({
     showBack = false,
     onBack,
 }: TopNavProps) {
-    const [localTab, setLocalTab] = useState<FeedTab>(activeTab);
-
-    const handleTabChange = (tab: FeedTab) => {
-        setLocalTab(tab);
-        onTabChange?.(tab);
-    };
-
     return (
         <nav className={styles.nav}>
             <div className={styles.left}>
@@ -51,30 +35,7 @@ export default function TopNav({
             </div>
 
             <div className={styles.center}>
-                {title ? (
-                    <h1 className={styles.title}>{title}</h1>
-                ) : showTabs ? (
-                    <div className={styles.tabs}>
-                        <button
-                            className={`${styles.tab} ${localTab === 'foryou' ? styles.active : ''}`}
-                            onClick={() => handleTabChange('foryou')}
-                        >
-                            For You
-                        </button>
-                        <button
-                            className={`${styles.tab} ${localTab === 'following' ? styles.active : ''}`}
-                            onClick={() => handleTabChange('following')}
-                        >
-                            Following
-                        </button>
-                        <div
-                            className={styles.tabIndicator}
-                            style={{
-                                transform: `translateX(${localTab === 'foryou' ? '0%' : '100%'})`
-                            }}
-                        />
-                    </div>
-                ) : null}
+                {title && <h1 className={styles.title}>{title}</h1>}
             </div>
 
             <div className={styles.right}>

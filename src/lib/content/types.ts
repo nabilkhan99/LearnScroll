@@ -58,6 +58,7 @@ export interface Content {
     view_count: number;
     like_count?: number;
     bookmark_count?: number;
+    author: string;
     created_at: string;
     updated_at: string;
 }

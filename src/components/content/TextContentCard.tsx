@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Content, TextContentMetadata, INTERESTS, Category } from '@/lib/content/types';
+import { Content, TextContentMetadata, INTERESTS } from '@/lib/content/types';
 import styles from './TextContentCard.module.css';
 
 interface TextContentCardProps {
@@ -23,8 +23,6 @@ export default function TextContentCard({
 }: TextContentCardProps) {
     const [showHeartAnimation, setShowHeartAnimation] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
-    const [likeCount] = useState(1200);
-    const [commentCount] = useState(345);
 
     // Get category info
     const categoryInfo = INTERESTS.find(i => i.id === content.category);
@@ -66,43 +64,32 @@ export default function TextContentCard({
             {/* Background Gradient */}
             <div className={styles.backgroundGradient} />
 
-            {/* Header Image with Gradient */}
-            <div className={styles.headerImage}>
-                <div className={styles.headerImageOverlay} />
-                <div className={styles.headerMeta}>
-                    <div className={styles.headerLeft}>
-                        <span className={styles.categoryPill}>
-                            {categoryInfo?.label || content.category}
-                        </span>
-                        <span className={styles.timePill}>
-                            ⏱ {readingTime} min
-                        </span>
-                    </div>
-                    <span className={styles.difficultyPill}>{content.difficulty}</span>
-                </div>
+            {/* Header Meta - now at top of content */}
+            <div className={styles.headerMeta}>
+                <span className={styles.categoryPill}>
+                    {categoryInfo?.label || content.category}
+                </span>
+                <span className={styles.timePill}>
+                    ⏱ {readingTime} min
+                </span>
             </div>
 
             {/* Scrollable Content */}
             <div className={styles.contentWrapper} onScroll={handleScroll}>
                 <h1 className={styles.title}>{content.title}</h1>
 
-                {/* Author Info */}
+                {/* Author Info - from database */}
                 <div className={styles.authorInfo}>
                     <div className={styles.authorAvatar}>
                         <div className={styles.avatarPlaceholder} />
                     </div>
-                    <span className={styles.authorName}>Dr. Sarah Kline</span>
-                    <span className={styles.dot}>•</span>
-                    <span className={styles.views}>12.5k views</span>
+                    <span className={styles.authorName}>{content.author}</span>
                 </div>
 
                 {/* Body Content */}
                 <div className={styles.body}>
                     {content.metadata.body.split('\n\n').map((paragraph, index) => (
-                        <p 
-                            key={index} 
-                            className={`${styles.paragraph} ${index === 0 ? styles.firstParagraph : ''}`}
-                        >
+                        <p key={index} className={styles.paragraph}>
                             {paragraph}
                         </p>
                     ))}
@@ -120,15 +107,7 @@ export default function TextContentCard({
                     aria-label={isLiked ? 'Unlike' : 'Like'}
                 >
                     <span className={styles.iconSymbol}>{isLiked ? '♥' : '♡'}</span>
-                    <span className={styles.count}>{formatCount(likeCount)}</span>
-                </button>
-
-                <button
-                    className={styles.interactionBtn}
-                    aria-label="Comments"
-                >
-                    <span className={styles.iconSymbol}>💬</span>
-                    <span className={styles.count}>{commentCount}</span>
+                    <span className={styles.count}>Like</span>
                 </button>
 
                 <button

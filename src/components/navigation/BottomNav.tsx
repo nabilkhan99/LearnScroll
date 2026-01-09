@@ -9,7 +9,6 @@ interface NavItem {
     icon: React.ReactNode;
     activeIcon: React.ReactNode;
     label: string;
-    isCenter?: boolean;
 }
 
 const navItems: NavItem[] = [
@@ -24,13 +23,6 @@ const navItems: NavItem[] = [
         icon: <DiscoverIcon />,
         activeIcon: <DiscoverIconFilled />,
         label: 'Discover',
-    },
-    {
-        href: '/create',
-        icon: <PlusIcon />,
-        activeIcon: <PlusIcon />,
-        label: 'Create',
-        isCenter: true,
     },
     {
         href: '/library',
@@ -58,7 +50,7 @@ export default function BottomNav() {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className={`${styles.navItem} ${isActive ? styles.active : ''} ${item.isCenter ? styles.center : ''}`}
+                        className={`${styles.navItem} ${isActive ? styles.active : ''}`}
                         aria-current={isActive ? 'page' : undefined}
                     >
                         <span className={styles.icon}>
@@ -103,15 +95,6 @@ function DiscoverIconFilled() {
     return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.21 13.21l-5.47 2.26c-.53.22-1.11-.19-1.03-.76l.8-5.78a.75.75 0 01.56-.56l5.78-.8c.57-.08.98.5.76 1.03l-2.26 5.47a.75.75 0 01-.14.14z" />
-        </svg>
-    );
-}
-
-function PlusIcon() {
-    return (
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
     );
 }

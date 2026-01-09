@@ -12,10 +12,8 @@ export default function FeedPage() {
     const [content, setContent] = useState<Content[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [userInterests, setUserInterests] = useState<string[]>([]);
     const [likedContentIds, setLikedContentIds] = useState<Set<string>>(new Set());
     const [bookmarkedContentIds, setBookmarkedContentIds] = useState<Set<string>>(new Set());
-    const [activeTab, setActiveTab] = useState<'foryou' | 'following'>('foryou');
     const [isMuted, setIsMuted] = useState(true);
     const containerRef = useRef<HTMLDivElement>(null);
     const itemRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -29,17 +27,6 @@ export default function FeedPage() {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
-                // Get user profile for interests
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('interests')
-                    .eq('id', user.id)
-                    .single();
-
-                if (profile?.interests) {
-                    setUserInterests(profile.interests);
-                }
-
                 // Get user's likes
                 const { data: likes } = await supabase
                     .from('likes')
@@ -61,7 +48,7 @@ export default function FeedPage() {
                 }
             }
 
-            // Fetch content (for now, fetch all - we'll filter in future)
+            // Fetch content
             const { data: contentData, error } = await supabase
                 .from('content')
                 .select('*')
@@ -96,7 +83,7 @@ export default function FeedPage() {
             },
             {
                 root: containerRef.current,
-                threshold: 0.5, // Trigger when 50% visible
+                threshold: 0.5,
             }
         );
 
@@ -108,7 +95,7 @@ export default function FeedPage() {
         return () => observer.disconnect();
     }, [content]);
 
-    // Keyboard navigation - scrolls to item instead of state update
+    // Keyboard navigation
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             let targetIndex = currentIndex;
@@ -141,7 +128,6 @@ export default function FeedPage() {
         const isLiked = likedContentIds.has(contentId);
 
         if (isLiked) {
-            // Unlike
             await supabase
                 .from('likes')
                 .delete()
@@ -154,7 +140,6 @@ export default function FeedPage() {
                 return next;
             });
         } else {
-            // Like
             await supabase
                 .from('likes')
                 .insert({ user_id: user.id, content_id: contentId });
@@ -173,7 +158,6 @@ export default function FeedPage() {
         const isBookmarked = bookmarkedContentIds.has(contentId);
 
         if (isBookmarked) {
-            // Remove bookmark
             await supabase
                 .from('bookmarks')
                 .delete()
@@ -186,7 +170,6 @@ export default function FeedPage() {
                 return next;
             });
         } else {
-            // Add bookmark
             await supabase
                 .from('bookmarks')
                 .insert({ user_id: user.id, content_id: contentId });
@@ -208,7 +191,6 @@ export default function FeedPage() {
                 console.log('Share cancelled or failed:', err);
             }
         } else {
-            // Fallback: copy to clipboard
             await navigator.clipboard.writeText(window.location.href);
         }
     }, []);
@@ -235,8 +217,6 @@ export default function FeedPage() {
     return (
         <>
             <TopNav
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
                 isMuted={isMuted}
                 onMuteToggle={() => setIsMuted(!isMuted)}
             />
@@ -245,7 +225,6 @@ export default function FeedPage() {
                 ref={containerRef}
                 className={styles.container}
             >
-                {/* Scrollable feed - renders all items */}
                 {content.map((item, index) => (
                     <div
                         key={item.id}
@@ -267,33 +246,6 @@ export default function FeedPage() {
                         )}
                     </div>
                 ))}
-
-                {/* Navigation hint - only show when not at end */}
-                <div className={styles.navHint}>
-                    {currentIndex < content.length - 1 && (
-                        <div className={styles.swipeHint}>
-                            <span>↑</span>
-                            <span className={styles.swipeText}>Scroll up</span>
-                        </div>
-                    )}
-                </div>
-
-                {/* Progress indicator */}
-                <div className={styles.progressIndicator}>
-                    <span>{currentIndex + 1}</span>
-                    <span className={styles.separator}>/</span>
-                    <span>{content.length}</span>
-                </div>
-
-                {/* Progress dots - like TikTok */}
-                <div className={styles.progressDots}>
-                    {content.slice(0, 10).map((_, i) => (
-                        <div
-                            key={i}
-                            className={`${styles.dot} ${i === currentIndex ? styles.dotActive : i < currentIndex ? styles.dotPassed : ''}`}
-                        />
-                    ))}\n                    {content.length > 10 && <span className={styles.dotMore}>+{content.length - 10}</span>}
-                </div>
             </div>
 
             <BottomNav />

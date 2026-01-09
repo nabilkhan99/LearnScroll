@@ -52,7 +52,6 @@ export default function ProfileClient({ user, stats }: ProfileClientProps) {
     return (
         <div className={styles.container}>
             <TopNav
-                showTabs={false}
                 title="Profile"
                 showVolumeControl={false}
             />
